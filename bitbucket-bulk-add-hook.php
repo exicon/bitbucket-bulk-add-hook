@@ -90,7 +90,7 @@ echo "\n";
 
 // Initial method
 // $repoPattern = '!https://bitbucket.org/api/2.0/repositories/' . $account . '/(.+)/watchers$!';
-$repoPattern = '!https://api.bitbucket.org/2.0/repositories/' . $account . '/(.+)/hooks$!';
+$repoPattern = '!https://bitbucket.org/\!api/2.0/repositories/' . $account . '/(.+)/hooks$!';
 foreach ($repos->values as $repo) {
     if (preg_match($repoPattern, $repo->links->hooks->href, $m)) {
         $url = $m[1];
@@ -238,6 +238,7 @@ class BitBucketAPI {
         echo "Querying $url ...\n";
         $response = curl_exec($curl);
         if ($response !== false) {
+            // var_dump(json_decode($response)->values);
             return json_decode($response);
         }
         return false;
